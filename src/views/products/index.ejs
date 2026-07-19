@@ -1,0 +1,17 @@
+<section class="container page-head"><h1>Sản phẩm</h1><p>Tìm kiếm, lọc danh mục, thương hiệu và sắp xếp theo nhu cầu.</p></section>
+<section class="container shop-layout">
+  <aside class="filter-card">
+    <form method="get" action="/products">
+      <label>Từ khóa</label><input name="q" value="<%= query.q || '' %>" placeholder="iPhone 15...">
+      <label>Danh mục</label><select name="categoryId"><option value="">Tất cả</option><% categories.forEach(c=>{ %><option value="<%= c.categoryid %>" <%= String(query.categoryId||'')===String(c.categoryid)?'selected':'' %>><%= c.categoryname %></option><% }) %></select>
+      <label>Thương hiệu</label><select name="brandId"><option value="">Tất cả</option><% brands.forEach(b=>{ %><option value="<%= b.brandid %>" <%= String(query.brandId||'')===String(b.brandid)?'selected':'' %>><%= b.brandname %></option><% }) %></select>
+      <label>Sắp xếp</label><select name="sort"><option value="newest">Mới nhất</option><option value="popular" <%= query.sort==='popular'?'selected':'' %>>Xem nhiều</option><option value="price_asc" <%= query.sort==='price_asc'?'selected':'' %>>Giá tăng</option><option value="price_desc" <%= query.sort==='price_desc'?'selected':'' %>>Giá giảm</option></select>
+      <button class="btn primary full">Lọc sản phẩm</button>
+    </form>
+  </aside>
+  <div>
+    <div class="result-bar"><b><%= total %></b> sản phẩm phù hợp</div>
+    <div class="product-grid"><% products.forEach(product => { %><%- include('../partials/product-card', { product }) %><% }) %></div>
+    <div class="pager"><% for(let i=1;i<=totalPages;i++){ %><a class="<%= i===page?'active':'' %>" href="/products?<%= new URLSearchParams({...query,page:i}).toString() %>"><%= i %></a><% } %></div>
+  </div>
+</section>

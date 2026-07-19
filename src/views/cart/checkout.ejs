@@ -1,0 +1,14 @@
+<section class="container page-head"><h1>Thanh toán</h1></section>
+<section class="container checkout-grid">
+<form class="page-card" method="post" action="/cart/checkout">
+<h2>Thông tin nhận hàng</h2>
+<label>Người nhận</label><input name="receivername" value="<%= address?.receivername || currentUser.fullname %>" required>
+<label>Số điện thoại</label><input name="receiverphone" value="<%= address?.phone || '' %>" required>
+<label>Địa chỉ</label><textarea name="shippingaddress" required><%= address?.address || '' %></textarea>
+<label>Ghi chú</label><textarea name="note"></textarea>
+<label>Mã giảm giá</label><input name="voucherCode" placeholder="SALE10">
+<label>Thanh toán</label><select name="paymentmethod"><option>COD</option><option>BankTransfer</option><option>VNPay Demo</option></select>
+<button class="btn primary big">Đặt hàng</button>
+</form>
+<div class="page-card"><h2>Đơn hàng</h2><% cart.forEach(i=>{ %><div class="line"><span><%= i.productname %> × <%= i.quantity %></span><b><%= format.money(i.price*i.quantity) %></b></div><% }) %><hr><div class="line total"><span>Tạm tính</span><b><%= format.money(total) %></b></div></div>
+</section>

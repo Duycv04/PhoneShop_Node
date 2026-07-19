@@ -1,0 +1,1 @@
+<section class="container page-head"><h1>Hồ sơ trả góp</h1></section><section class="container page-card"><table class="table"><% items.forEach(i=>{ %><tr><td><%= i.productname || i.productid %></td><td><%= format.money(i.productprice) %></td><td><%= i.termmonths %> tháng</td><td><%= i.status %></td></tr><% }) %></table></section>

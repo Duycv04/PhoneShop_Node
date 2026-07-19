@@ -1,0 +1,1 @@
+<section class="container page-head"><h1>Thông báo</h1></section><section class="container list"><% items.forEach(n=>{ %><a class="page-card list-item" href="<%= n.targeturl || '#' %>"><b><%= n.title %></b><p><%= n.message %></p><small><%= format.datetime(n.createdat) %></small></a><% }) %></section>

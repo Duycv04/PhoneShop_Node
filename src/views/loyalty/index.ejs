@@ -1,0 +1,1 @@
+<section class="container page-head"><h1>Điểm thành viên</h1><p>Tổng điểm: <b><%= points %></b></p></section><section class="container page-card"><table class="table"><% items.forEach(i=>{ %><tr><td><%= i.reason || i.type || 'Giao dịch' %></td><td><%= i.points %></td><td><%= format.datetime(i.createdat) %></td></tr><% }) %></table></section>

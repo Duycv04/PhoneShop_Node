@@ -1,0 +1,7 @@
+<section class="container page-head"><h1>Giỏ hàng</h1></section>
+<section class="container page-card">
+<% if(!cart.length){ %><p>Giỏ hàng trống.</p><a class="btn primary" href="/products">Mua sắm ngay</a><% } else { %>
+<table class="table"><thead><tr><th>Sản phẩm</th><th>Giá</th><th>SL</th><th>Tổng</th><th></th></tr></thead><tbody>
+<% cart.forEach(i=>{ %><tr><td class="table-product"><img src="<%= i.imageurl || '/images/placeholder-phone.png' %>"><%= i.productname %></td><td><%= format.money(i.price) %></td><td><form method="post" action="/cart/update/<%= i.productid %>"><input type="number" name="quantity" value="<%= i.quantity %>" min="0"><button>Cập nhật</button></form></td><td><%= format.money(i.price*i.quantity) %></td><td><form method="post" action="/cart/remove/<%= i.productid %>"><button>Xóa</button></form></td></tr><% }) %>
+</tbody></table><div class="cart-total">Tổng: <b><%= format.money(total) %></b></div><a class="btn primary big" href="/cart/checkout">Thanh toán</a><% } %>
+</section>

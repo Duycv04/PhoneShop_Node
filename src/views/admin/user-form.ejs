@@ -1,0 +1,66 @@
+<section class="container page-head">
+  <div>
+    <p class="meta">Admin</p>
+    <h1><%= mode === 'create' ? 'Thêm người dùng' : 'Sửa người dùng' %></h1>
+    <p><%= mode === 'create' ? 'Tạo tài khoản khách hàng hoặc tài khoản quản trị mới.' : 'Cập nhật thông tin, trạng thái và quyền tài khoản.' %></p>
+  </div>
+  <a class="btn light" href="/admin/users">← Quay lại</a>
+</section>
+
+<section class="container admin-layout">
+  <%- include('nav') %>
+  <div class="page-card">
+    <form method="post" action="<%= mode === 'create' ? '/admin/users/create' : '/admin/users/' + user.userid + '/edit' %>">
+      <div class="two-columns">
+        <div>
+          <label>Họ tên</label>
+          <input name="fullname" value="<%= user.fullname || '' %>" required>
+        </div>
+        <div>
+          <label>Email</label>
+          <input type="email" name="email" value="<%= user.email || '' %>" required>
+        </div>
+      </div>
+
+      <div class="two-columns">
+        <div>
+          <label>Số điện thoại</label>
+          <input name="phone" value="<%= user.phone || '' %>" placeholder="Ví dụ: 0987654321">
+        </div>
+        <div>
+          <label>Quyền</label>
+          <select name="roleid">
+            <% roles.forEach(r => { %>
+              <option value="<%= r.roleid %>" <%= String(user.roleid || 2)===String(r.roleid)?'selected':'' %>><%= r.rolename %></option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label>Địa chỉ</label>
+        <textarea name="address"><%= user.address || '' %></textarea>
+      </div>
+
+      <% if (mode === 'create') { %>
+        <div>
+          <label>Mật khẩu ban đầu</label>
+          <input name="password" value="<%= defaultPassword %>" required>
+          <small>Admin có thể đổi lại sau trong trang chi tiết người dùng.</small>
+        </div>
+      <% } else { %>
+        <div>
+          <label>Lý do khóa nếu tắt hoạt động</label>
+          <input name="lockedreason" value="<%= user.lockedreason || '' %>" placeholder="Ví dụ: Vi phạm chính sách, spam đơn hàng...">
+        </div>
+      <% } %>
+
+      <label class="check-line">
+        <input type="checkbox" name="isactive" <%= mode === 'create' || user.isactive ? 'checked' : '' %>>
+        Tài khoản đang hoạt động
+      </label>
+
+      <button class="btn"><%= mode === 'create' ? 'Tạo tài khoản' : 'Lưu thay đổi' %></button>
+    </form>
+  </div>
+</section>

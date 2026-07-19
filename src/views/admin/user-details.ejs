@@ -1,0 +1,97 @@
+<section class="container page-head">
+  <div>
+    <p class="meta">Admin</p>
+    <h1><%= user.fullname || user.email %></h1>
+    <p>Chi tiết tài khoản, đơn hàng, địa chỉ, yêu thích, đánh giá và hỗ trợ.</p>
+  </div>
+  <div class="action-row">
+    <a class="btn light" href="/admin/users">← Danh sách</a>
+    <a class="btn" href="/admin/users/<%= user.userid %>/edit">Sửa user</a>
+  </div>
+</section>
+
+<section class="container admin-layout">
+  <%- include('nav') %>
+  <div class="list">
+    <div class="page-card">
+      <h2>Thông tin tài khoản</h2>
+      <div class="mini-grid">
+        <div class="mini-card"><span>Email</span><b><%= user.email || '' %></b></div>
+        <div class="mini-card"><span>Điện thoại</span><b><%= user.phone || 'Chưa có' %></b></div>
+        <div class="mini-card"><span>Quyền</span><b><%= user.rolename || user.roleid || 'User' %></b></div>
+        <div class="mini-card"><span>Trạng thái</span><b><%= user.isactive ? 'Hoạt động' : 'Đã khóa' %></b></div>
+        <div class="mini-card"><span>Ngày tạo</span><b><%= format.datetime(user.createdat) || 'Chưa có' %></b></div>
+        <div class="mini-card"><span>Đăng nhập cuối</span><b><%= format.datetime(user.lastloginat) || 'Chưa có' %></b></div>
+      </div>
+      <% if (user.lockedreason) { %><p class="answer-box"><b>Lý do khóa:</b> <%= user.lockedreason %></p><% } %>
+      <p><b>Địa chỉ:</b> <%= user.address || 'Chưa có' %></p>
+
+      <div class="action-row">
+        <form method="post" action="/admin/users/<%= user.userid %>/toggle-active">
+          <button class="btn <%= user.isactive ? 'danger' : '' %>" onclick="return confirm('Xác nhận cập nhật trạng thái tài khoản này?')"><%= user.isactive ? 'Khóa tài khoản' : 'Mở tài khoản' %></button>
+        </form>
+        <form method="post" action="/admin/users/<%= user.userid %>/reset-password" onsubmit="return confirm('Đặt lại mật khẩu cho người dùng này?')">
+          <input name="newPassword" value="PhoneShop@123" style="max-width:220px">
+          <button class="btn ghost">Đặt lại mật khẩu</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="page-card">
+      <h2>Đơn hàng gần đây</h2>
+      <div class="table-scroll">
+        <table class="table">
+          <tr><th>Mã đơn</th><th>Ngày</th><th>Tổng tiền</th><th>Trạng thái</th></tr>
+          <% if (!orders.length) { %><tr><td colspan="4">Chưa có đơn hàng.</td></tr><% } %>
+          <% orders.forEach(o => { %>
+            <tr><td><%= o.ordercode || o.orderid %></td><td><%= format.datetime(o.createdat) %></td><td><%= format.money(o.totalamount) %></td><td><%= o.status %></td></tr>
+          <% }) %>
+        </table>
+      </div>
+    </div>
+
+    <div class="two-columns">
+      <div class="page-card">
+        <h2>Địa chỉ giao hàng</h2>
+        <% if (!addresses.length) { %><p>Chưa có địa chỉ giao hàng.</p><% } %>
+        <% addresses.forEach(a => { %>
+          <div class="line"><span><%= a.receivername || user.fullname %> · <%= a.phone || '' %></span><b><%= a.isdefault ? 'Mặc định' : '' %></b></div>
+          <p><%= a.address %></p>
+        <% }) %>
+      </div>
+
+      <div class="page-card">
+        <h2>Sản phẩm yêu thích</h2>
+        <% if (!wishlist.length) { %><p>Chưa có sản phẩm yêu thích.</p><% } %>
+        <% wishlist.forEach(w => { %>
+          <div class="line"><span><%= w.productname || 'Sản phẩm' %></span><b><%= format.money(w.price) %></b></div>
+        <% }) %>
+      </div>
+    </div>
+
+    <div class="two-columns">
+      <div class="page-card">
+        <h2>Đánh giá</h2>
+        <% if (!reviews.length) { %><p>Chưa có đánh giá.</p><% } %>
+        <% reviews.forEach(r => { %>
+          <div class="mini-card">
+            <b><%= r.productname || 'Sản phẩm' %></b>
+            <p>⭐ <%= r.rating %>/5</p>
+            <p><%= r.comment || '' %></p>
+          </div>
+        <% }) %>
+      </div>
+
+      <div class="page-card">
+        <h2>Ticket hỗ trợ</h2>
+        <% if (!supportTickets.length) { %><p>Chưa có ticket hỗ trợ.</p><% } %>
+        <% supportTickets.forEach(t => { %>
+          <div class="mini-card">
+            <b><%= t.subject || t.title || 'Yêu cầu hỗ trợ' %></b>
+            <p><%= t.status || '' %> · <%= format.datetime(t.createdat) %></p>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</section>

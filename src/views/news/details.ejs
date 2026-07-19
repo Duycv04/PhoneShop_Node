@@ -1,0 +1,1 @@
+<article class="container article"><span class="meta"><%= article.categoryname || 'Tin tức' %></span><h1><%= article.title %></h1><p class="lead"><%= article.summary || '' %></p><% if(article.imageurl){ %><img src="<%= article.imageurl %>" alt=""><% } %><div class="content"><%- article.content %></div></article>

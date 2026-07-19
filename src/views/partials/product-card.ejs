@@ -1,0 +1,21 @@
+<article class="product-card">
+  <a class="product-image" href="/products/<%= product.productid %>">
+    <% if (product.badgetext || product.discountpercent) { %><span class="badge"><%= product.badgetext || ('-' + product.discountpercent + '%') %></span><% } %>
+    <img src="<%= product.imageurl || '/images/placeholder-phone.png' %>" alt="<%= product.productname %>">
+  </a>
+  <div class="product-body">
+    <div class="meta"><%= product.brandname || product.categoryname || 'PhoneShop' %></div>
+    <h3><a href="/products/<%= product.productid %>"><%= product.productname %></a></h3>
+    <div class="rating">★ <%= product.average_rating || 0 %> <span>(<%= product.review_count || 0 %>)</span></div>
+    <div class="price-row">
+      <strong><%= format.money(product.finalprice || product.saleprice || product.price) %></strong>
+      <% if ((product.finalprice || product.saleprice) && Number(product.finalprice || product.saleprice) < Number(product.price)) { %><del><%= format.money(product.price) %></del><% } %>
+    </div>
+    <div class="stock"><%= Number(product.quantity || 0) > 0 ? 'Còn hàng' : 'Hết hàng' %></div>
+    <div class="product-actions">
+      <form method="post" action="/cart/add/<%= product.productid %>"><button class="btn primary">Thêm giỏ</button></form>
+      <form method="post" action="/wishlist/toggle/<%= product.productid %>"><button class="btn ghost" title="Yêu thích">♡</button></form>
+      <button class="btn ghost js-compare" data-id="<%= product.productid %>">⇄</button>
+    </div>
+  </div>
+</article>

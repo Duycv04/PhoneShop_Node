@@ -1,0 +1,44 @@
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">Node.js · Express.js · PostgreSQL</span>
+      <h1>PhoneShop hiện đại, nhanh, đẹp và dễ mở rộng.</h1>
+      <p>Giao diện mới theo phong cách các website bán điện thoại lớn: mega menu, flash sale, combo, tin công nghệ, trả góp, thu cũ đổi mới.</p>
+      <div class="hero-actions"><a class="btn primary big" href="/products">Khám phá sản phẩm</a><a class="btn light big" href="/bundle">Xem combo</a></div>
+    </div>
+    <div class="hero-banners">
+      <% if ((banners || []).length) { banners.slice(0,2).forEach(b => { %>
+        <a class="banner-card" href="<%= b.targeturl || '/products' %>"><span><%= b.badgetext || 'Ưu đãi' %></span><h3><%= b.title %></h3><p><%= b.subtitle || '' %></p></a>
+      <% }) } else { %>
+        <a class="banner-card" href="/products"><span>Flash Sale</span><h3>Điện thoại chính hãng</h3><p>Giá tốt, bảo hành rõ ràng.</p></a>
+        <a class="banner-card dark" href="/installment"><span>0%</span><h3>Mua trả góp dễ dàng</h3><p>Xét duyệt nhanh, thanh toán linh hoạt.</p></a>
+      <% } %>
+    </div>
+  </div>
+</section>
+<section class="container section">
+  <div class="section-head"><h2>Danh mục nổi bật</h2><a href="/products">Xem tất cả</a></div>
+  <div class="category-grid">
+    <% (categories || []).slice(0,16).forEach(c => { %>
+      <a class="category-card" href="/products?categoryId=<%= c.categoryid %>"><span>▣</span><%= c.categoryname %></a>
+    <% }) %>
+  </div>
+</section>
+<section class="container section">
+  <div class="section-head"><h2>Sản phẩm mới & nổi bật</h2><a href="/products?sort=newest">Xem thêm</a></div>
+  <div class="product-grid"><% featured.forEach(product => { %><%- include('../partials/product-card', { product }) %><% }) %></div>
+</section>
+<section class="container section split-section">
+  <div>
+    <div class="section-head"><h2>Combo ưu đãi</h2><a href="/bundle">Tất cả combo</a></div>
+    <div class="mini-grid"><% (bundles || []).forEach(b => { %><a class="mini-card" href="/bundle/<%= b.bundleid %>"><b><%= b.bundlename %></b><span><%= format.money(b.bundleprice) %></span></a><% }) %></div>
+  </div>
+  <div>
+    <div class="section-head"><h2>Tin công nghệ</h2><a href="/news">Xem tin</a></div>
+    <div class="mini-grid"><% (articles || []).forEach(a => { %><a class="mini-card" href="/news/<%= a.slug || a.articleid %>"><b><%= a.title %></b><span><%= a.categoryname || 'Tư vấn' %></span></a><% }) %></div>
+  </div>
+</section>
+<section class="container section">
+  <div class="section-head"><h2>Được xem nhiều</h2><a href="/products?sort=popular">Xem thêm</a></div>
+  <div class="product-grid"><% popular.forEach(product => { %><%- include('../partials/product-card', { product }) %><% }) %></div>
+</section>

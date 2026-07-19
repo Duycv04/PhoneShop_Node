@@ -1,0 +1,1 @@
+<section class="container page-head"><h1>Lịch nhận hàng</h1></section><section class="container page-card"><table class="table"><% items.forEach(i=>{ %><tr><td><%= i.branchname %></td><td><%= format.date(i.appointmentdate) %></td><td><%= i.timeslot %></td><td><%= i.status %></td></tr><% }) %></table></section>

@@ -1,0 +1,1 @@
+<section class="container page-head"><h1>Combo ưu đãi</h1></section><section class="container card-grid"><% bundles.forEach(b=>{ %><a class="page-card" href="/bundle/<%= b.bundleid %>"><span class="badge"><%= b.badgetext || 'Combo' %></span><h2><%= b.bundlename %></h2><p><%= b.description || '' %></p><b><%= format.money(b.bundleprice) %></b></a><% }) %></section>

@@ -1,0 +1,1 @@
+<section class="container page-head"><h1>Yêu cầu hoàn tiền</h1></section><section class="container page-card"><table class="table"><% items.forEach(i=>{ %><tr><td><%= i.ordercode %></td><td><%= format.money(i.amount) %></td><td><%= i.reason %></td><td><%= i.status %></td></tr><% }) %></table></section>

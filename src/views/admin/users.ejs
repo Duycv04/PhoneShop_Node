@@ -1,0 +1,90 @@
+<section class="container page-head">
+  <div>
+    <p class="meta">Admin</p>
+    <h1>Quản lý người dùng</h1>
+    <p>Quản lý tài khoản khách hàng, phân quyền Admin/User, khóa hoặc mở tài khoản.</p>
+  </div>
+  <a class="btn" href="/admin/users/create">+ Thêm user</a>
+</section>
+
+<section class="container admin-grid">
+  <div class="stat"><span>Tổng tài khoản</span><b><%= summary.total %></b></div>
+  <div class="stat"><span>Đang hoạt động</span><b><%= summary.active %></b></div>
+  <div class="stat"><span>Đang khóa</span><b><%= summary.locked %></b></div>
+  <div class="stat"><span>Admin</span><b><%= summary.admins %></b></div>
+</section>
+
+<section class="container admin-layout">
+  <%- include('nav') %>
+  <div class="page-card">
+    <form class="filter-row" method="get" action="/admin/users">
+      <input name="q" value="<%= filters.q || '' %>" placeholder="Tìm theo tên, email, số điện thoại...">
+      <select name="roleid">
+        <option value="">Tất cả quyền</option>
+        <% roles.forEach(r => { %>
+          <option value="<%= r.roleid %>" <%= String(filters.roleid)===String(r.roleid)?'selected':'' %>><%= r.rolename %></option>
+        <% }) %>
+      </select>
+      <select name="status">
+        <option value="all" <%= filters.status==='all'?'selected':'' %>>Tất cả trạng thái</option>
+        <option value="active" <%= filters.status==='active'?'selected':'' %>>Đang hoạt động</option>
+        <option value="locked" <%= filters.status==='locked'?'selected':'' %>>Đang khóa</option>
+      </select>
+      <button class="btn">Lọc</button>
+    </form>
+
+    <div class="table-scroll">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Người dùng</th>
+            <th>Liên hệ</th>
+            <th>Quyền</th>
+            <th>Đơn hàng</th>
+            <th>Đã chi</th>
+            <th>Trạng thái</th>
+            <th>Đăng nhập cuối</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!users.length) { %>
+            <tr><td colspan="8">Chưa có người dùng phù hợp.</td></tr>
+          <% } %>
+          <% users.forEach(u => { %>
+            <tr>
+              <td>
+                <b><%= u.fullname || 'Chưa có tên' %></b><br>
+                <small><%= u.userid %></small>
+              </td>
+              <td>
+                <%= u.email || '' %><br>
+                <small><%= u.phone || '' %></small>
+              </td>
+              <td><span class="status-pill <%= u.rolename === 'Admin' ? 'admin' : '' %>"><%= u.rolename || u.roleid || 'User' %></span></td>
+              <td><%= u.ordercount || 0 %></td>
+              <td><%= format.money(u.totalspent) %></td>
+              <td>
+                <% if (u.isactive) { %>
+                  <span class="status-pill active">Hoạt động</span>
+                <% } else { %>
+                  <span class="status-pill locked">Đã khóa</span>
+                <% } %>
+              </td>
+              <td><%= format.datetime(u.lastloginat) || 'Chưa có' %></td>
+              <td>
+                <div class="action-row">
+                  <a class="btn light" href="/admin/users/<%= u.userid %>">Xem</a>
+                  <a class="btn ghost" href="/admin/users/<%= u.userid %>/edit">Sửa</a>
+                  <form method="post" action="/admin/users/<%= u.userid %>/toggle-active">
+                    <button class="btn <%= u.isactive ? 'danger' : '' %>" onclick="return confirm('Xác nhận cập nhật trạng thái tài khoản này?')"><%= u.isactive ? 'Khóa' : 'Mở' %></button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

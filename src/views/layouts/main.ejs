@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title ? title + ' - ' : '' %><%= appName %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span>⚡ Miễn phí giao hàng nội thành cho đơn từ 3 triệu</span>
+      <span>Hotline: 1900 6868 · Bảo hành chính hãng</span>
+    </div>
+  </div>
+  <header class="site-header">
+    <div class="container nav-main">
+      <a class="brand" href="/"><span class="brand-logo">P</span><span>PhoneShop</span></a>
+      <form class="search" action="/products" method="get">
+        <input name="q" placeholder="Tìm iPhone, Samsung, laptop, phụ kiện..." autocomplete="off">
+        <button>Tìm kiếm</button>
+      </form>
+      <nav class="nav-actions">
+        <a href="/compare">⇄ <span>So sánh</span></a>
+        <a href="/wishlist">♡ <span>Yêu thích</span></a>
+        <a href="/notifications">🔔 <span><%= unreadCount || 0 %></span></a>
+        <a href="/cart">🛒 <span><%= cartCount || 0 %></span></a>
+        <% if (currentUser) { %>
+          <a href="/account/profile">👤 <span><%= currentUser.fullname %></span></a>
+          <% if (isAdmin) { %><a class="admin-link" href="/admin">Admin</a><% } %>
+          <form action="/account/logout" method="post"><button class="link-btn">Thoát</button></form>
+        <% } else { %>
+          <a href="/account/login">Đăng nhập</a>
+          <a class="primary-small" href="/account/register">Đăng ký</a>
+        <% } %>
+      </nav>
+    </div>
+    <div class="category-nav">
+      <div class="container category-inner">
+        <a href="/">Trang chủ</a>
+        <a href="/products">Tất cả sản phẩm</a>
+        <div class="mega-wrap">
+          <button class="mega-btn">☰ Danh mục</button>
+          <div class="mega-menu">
+            <div class="mega-feature"><b>Mua sắm theo nhu cầu</b><p>Điện thoại, tablet, laptop, phụ kiện, đồng hồ và nhà thông minh.</p></div>
+            <div class="mega-list">
+              <% (categories || []).forEach(c => { %>
+                <a href="/products?categoryId=<%= c.categoryid %>">▣ <%= c.categoryname %></a>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+        <% (categories || []).slice(0, 8).forEach(c => { %>
+          <a href="/products?categoryId=<%= c.categoryid %>"><%= c.categoryname %></a>
+        <% }) %>
+        <a href="/bundle">Combo</a>
+        <a href="/installment">Trả góp</a>
+        <a href="/tradein">Thu cũ đổi mới</a>
+        <a href="/news">Tin công nghệ</a>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container flash-area">
+      <% ['success','error','info'].forEach(type => { (flash[type] || []).forEach(msg => { %>
+        <div class="alert <%= type %>"><%= msg %></div>
+      <% }) }) %>
+    </div>
+    <%- body %>
+  </main>
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div><h3>PhoneShop</h3><p>Website bán điện thoại Node.js + Express.js + PostgreSQL, giữ nguyên database Lan9.</p></div>
+      <div><h4>Dịch vụ</h4><a href="/support">Hỗ trợ</a><a href="/warranty">Bảo hành</a><a href="/shipping/track">Tra cứu vận đơn</a></div>
+      <div><h4>Mua hàng</h4><a href="/products">Sản phẩm</a><a href="/bundle">Combo</a><a href="/store">Cửa hàng</a></div>
+      <div><h4>Nhận tin</h4><form class="newsletter" method="post" action="/newsletter"><input name="email" placeholder="Email của bạn"><button>Đăng ký</button></form></div>
+    </div>
+  </footer>
+  <script src="/js/site.js"></script>
+</body>
+</html>

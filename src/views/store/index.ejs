@@ -1,0 +1,1 @@
+<section class="container page-head"><h1>Hệ thống cửa hàng</h1><a class="btn primary" href="/store/create-pickup">Đặt lịch nhận hàng</a></section><section class="container card-grid"><% branches.forEach(b=>{ %><div class="page-card"><h2><%= b.branchname %></h2><p><%= b.address %></p><p><%= b.phone || '' %> · <%= b.openhours || '' %></p></div><% }) %></section>

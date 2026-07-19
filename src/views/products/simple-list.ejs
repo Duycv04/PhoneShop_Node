@@ -1,0 +1,2 @@
+<section class="container page-head"><h1><%= title %></h1></section>
+<section class="container"><% if(!products.length){ %><div class="page-card"><%= emptyText %></div><% } else { %><div class="product-grid"><% products.forEach(product=>{ product.finalprice=product.price; %><%- include('../partials/product-card',{product}) %><% }) %></div><% } %></section>
