@@ -9,8 +9,6 @@
 - Session đăng nhập bằng `express-session`
 - Giao diện shop responsive bằng CSS thuần
 
-## Chức năng đã chuyển
-
 ### Khách hàng
 
 - Trang chủ hiện đại, banner động từ bảng `homepagebanners`
